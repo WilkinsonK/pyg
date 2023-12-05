@@ -7,4 +7,4 @@ pygout
 .idea/
 .venv/
 .vscode/
-include/python3*/
+include/python3*
