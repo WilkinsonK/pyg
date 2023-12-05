@@ -1,0 +1,10 @@
+# Build artifacts
+build/
+pygmy.*.go.so
+pygout
+
+# Environment artifacts
+.idea/
+.venv/
+.vscode/
+include/python3*/
