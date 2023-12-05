@@ -2,6 +2,7 @@
 build/
 *pygmy.*.go.so
 pygout
+pygmy
 
 # Environment artifacts
 .idea/
