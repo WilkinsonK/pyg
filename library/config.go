@@ -50,7 +50,7 @@ func (config *PyConfig) InitPythonConfig() {
 // https://docs.python.org/3/c-api/init_config.html#c.PyConfig_Read
 func (config *PyConfig) Read() PyStatus {
 	ret := C.CGO_PyConfig_Read(&config.CInstance)
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Set command line arguments. (argv member of
@@ -59,7 +59,7 @@ func (config *PyConfig) Read() PyStatus {
 // https://docs.python.org/3/c-api/init_config.html#c.PyConfig_SetArgv
 func (config *PyConfig) SetArgv(argv []CPyWideString) PyStatus {
 	ret := C.CGO_PyConfig_SetArgv(&config.CInstance, Clong(len(argv)), &argv[0])
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Set command line arguments (argv member of
@@ -76,7 +76,7 @@ func (config *PyConfig) SetBytesArgv(argv []string) PyStatus {
 	cArgC := Clong(len(argv))
 
 	ret := C.CGO_PyConfig_SetBytesArgv(&config.CInstance, cArgC, &cArgV[0])
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Decode str using Py_DecodeLocale() and set the
@@ -90,7 +90,7 @@ func (config *PyConfig) SetBytesString(
 	defer CFree(cStr)
 
 	ret := C.CGO_PyConfig_SetBytesString(&config.CInstance, configStr, cStr)
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Set property as boolean.
@@ -110,7 +110,7 @@ func (config *PyConfig) SetString(
 	prop *CPyWideString, val CPyWideString) PyStatus {
 
 	ret := C.CGO_PyConfig_SetString(&config.CInstance, prop, val)
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Set the list of wide strings list to length
@@ -125,7 +125,7 @@ func (config *PyConfig) SetWideStringList(
 		list,
 		Clong(len(items)),
 		&items[0])
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Free any memory associated with preconfig.

@@ -26,8 +26,8 @@ type PyArtifact[T comparable] struct {
 	CInstance T
 }
 
-type PyConfig PyArtifact[CPyConfig]
 type PyObject PyArtifact[CPyObject]
+type PyConfig PyArtifact[CPyConfig]
 type PyPreConfig PyArtifact[CPyPreConfig]
 type PyStatus PyArtifact[CPyStatus]
 

@@ -26,7 +26,7 @@ func PygmyNewPython() *Pygmy {
 
 // Get a new isolated instance of Python
 // interpreter.
-func InterpreterNewIsolated() *Pygmy {
+func PygmyNewIsolated() *Pygmy {
 	preconfig, config := PreConfigNew(), ConfigNew()
 	preconfig.InitIsolatedConfig()
 	config.InitIsolatedConfig()
@@ -47,6 +47,13 @@ func (inter *Pygmy) checkInitializedS(val string, err error) (string, error) {
 	return val, err
 }
 
+// Undo all initializations made by
+// Py_Initialize() and subsequent use of Python/C
+// API functions, and destroy all sub-interpreters
+// (see Py_NewInterpreter() below) that were
+// created and not yet destroyed since the last
+// call to Py_Initialize().
+// https://docs.python.org/3/c-api/init.html#c.Py_FinalizeEx
 func (inter *Pygmy) FinalizeEx() int {
 	inter.Config.Clear()
 	inter.PreConfig.Clear()
@@ -57,7 +64,7 @@ func (inter *Pygmy) FinalizeEx() int {
 // https://docs.python.org/3/c-api/init_config.html#c.Py_InitializeFromConfig
 func (inter *Pygmy) InitializeFromConfig() PyStatus {
 	ret := C.CGO_Py_InitializeFromConfig(&inter.Config.CInstance)
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Whether the Python interpreter has been
@@ -147,7 +154,7 @@ func (inter *Pygmy) GetVersion() string {
 // https://docs.python.org/3/c-api/init_config.html#c.Py_PreInitialize
 func (inter *Pygmy) PreInitialize() PyStatus {
 	ret := C.CGO_PreInitialize(&inter.PreConfig.CInstance)
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Preinitialize Python from preconfig
@@ -160,7 +167,7 @@ func (inter *Pygmy) PreInitializeFromArgs(argv []CPyWideString) PyStatus {
 		&inter.PreConfig.CInstance,
 		Clong(len(argv)),
 		&argv[0])
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Preinitialize Python from preconfig
@@ -180,7 +187,7 @@ func (inter *Pygmy) PreInitializeFromBytesArgs(argv []string) PyStatus {
 		&inter.PreConfig.CInstance,
 		Clong(len(argv)),
 		&cArgV[0])
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Execute the command (PyConfig.run_command), the

@@ -4,38 +4,39 @@ package pygmy
 // #include "txllayer.h"
 import "C"
 
-func PyStatusNew(cStatus CPyStatus) PyStatus {
+// Initialize a new instance of `PyStatus`.
+func StatusNew(cStatus CPyStatus) PyStatus {
 	return PyStatus{CInstance: cStatus}
 }
 
 // Initialize an error PyStatus.
 // https://docs.python.org/3/c-api/init_config.html#c.PyStatus_Error
-func PyStatusError(err string) PyStatus {
+func StatusError(err string) PyStatus {
 	cErr := C.CString(err)
 	defer CFree(cErr)
 	ret := C.PyStatus_Error(cErr)
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Initialize a PyStatus with an exit code.
 // https://docs.python.org/3/c-api/init_config.html#c.PyStatus_Exit
-func PyStatusExit(code int) PyStatus {
+func StatusExit(code int) PyStatus {
 	ret := C.PyStatus_Exit((Cint)(code))
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Initialize an allocation failure PyStatus.
 // https://docs.python.org/3/c-api/init_config.html#c.PyStatus_NoMemory
-func PyStatusNoMemory() PyStatus {
+func StatusNoMemory() PyStatus {
 	ret := C.PyStatus_NoMemory()
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // Initialize a success PyStatus.
 // https://docs.python.org/3/c-api/init_config.html#c.PyStatus_Ok
-func PyStatusOk() PyStatus {
+func StatusOk() PyStatus {
 	ret := C.PyStatus_Ok()
-	return PyStatusNew(ret)
+	return StatusNew(ret)
 }
 
 // The error message.
