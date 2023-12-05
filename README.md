@@ -1,2 +1,2 @@
 # PyGmy #
-Embedded Python3 bindings for Go.
+Bindings for embedded Python3 in Go.
