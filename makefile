@@ -1,6 +1,6 @@
-BUILD_OUT=pygout
+BUILD_OUT=pygmy
 SHARE_VER=0.0.0
-SHARE_OUT=pygmy.$(SHARE_VER).go.so
+SHARE_OUT=libpygmy.$(SHARE_VER).go.so
 
 .PHONEY: all
 all: clean build shared
@@ -12,4 +12,4 @@ build:
 	go build -o $(BUILD_OUT) .
 
 shared:
-	go build -o $(SHARE_OUT) -buildmode=c-shared -linkshared ./pygmy/
+	go build -o $(SHARE_OUT) -buildmode=c-shared -linkshared .

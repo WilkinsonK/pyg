@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/WilkinsonK/pygmy/pygmy"
+	pygmy "github.com/WilkinsonK/pygmy/library"
 )
 
 func EvalStatus(status pygmy.PyStatus) {

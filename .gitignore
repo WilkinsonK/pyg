@@ -1,6 +1,6 @@
 # Build artifacts
 build/
-pygmy.*.go.so
+*pygmy.*.go.so
 pygout
 
 # Environment artifacts
