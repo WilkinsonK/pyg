@@ -196,14 +196,19 @@ func (pygi *Pyg) PreInitializeFromBytesArgs(argv []string) PyStatus {
 // PyRun_SimpleFileExFlags() below, leaving
 // closeit set to 0 and flags set to NULL.
 // https://docs.python.org/3/c-api/veryhigh.html?highlight=pyrun_#c.PyRun_SimpleFile
-func (pygi *Pyg) RunFile(fp *CFILE, fileName string) (int, error) {
+func (pygi *Pyg) RunFile(fileName string) (int, error) {
 	if err := pygi.checkInitialized(); err != nil {
 		return -1, err
 	}
 	cFileName := C.CString(fileName)
+	cMode := C.CString("r")
 	defer CFree(cFileName)
+	defer CFree(cMode)
 
-	return int(C.PyRun_SimpleFile(fp, cFileName)), nil
+	fd := C.fopen(cFileName, cMode)
+	defer C.fclose(fd)
+
+	return int(C.PyRun_SimpleFile(fd, cFileName)), nil
 }
 
 // Execute the command (PyConfig.run_command), the
