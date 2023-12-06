@@ -3,10 +3,10 @@ package main
 import (
 	"os"
 
-	pygmy "github.com/WilkinsonK/pygmy/lib"
+	pyg "github.com/WilkinsonK/pyg/lib"
 )
 
-func EvalStatus(status pygmy.PyStatus) {
+func EvalStatus(status pyg.PyStatus) {
 	if status.IsException() {
 		if status.IsExit() {
 			os.Exit(status.ExitCode())
@@ -16,13 +16,13 @@ func EvalStatus(status pygmy.PyStatus) {
 }
 
 func main() {
-	inter := pygmy.PygmyNewPython()
+	inter := pyg.PygNewPython()
 	defer inter.FinalizeEx()
 
 	EvalStatus(inter.PreInitializeFromBytesArgs(os.Args))
 	EvalStatus(inter.SetArgv(os.Args))
 	EvalStatus(inter.InitializeFromConfig())
 
-	inter.RunMain()
+	inter.RunString("print('Hello World')")
 	inter.FinalizeEx()
 }

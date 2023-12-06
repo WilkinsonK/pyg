@@ -1,5 +1,5 @@
-#ifndef _PYGMY_TXLLAYER_H
-#define _PYGMY_TXLLAYER_H
+#ifndef _PYG_TXLLAYER_H
+#define _PYG_TXLLAYER_H
 
 #define PY_SSIZE_T_CLEAN
 #include <wchar.h>
@@ -120,4 +120,4 @@ PyStatus CGO_PreInitialize(const CGO_PyPreConfig*);
 PyStatus CGO_Py_InitializeFromConfig(const CGO_PyConfig*);
 PyStatus CGO_Py_PreInitializeFromArgs(CGO_PyPreConfig*, Py_ssize_clean_t, wchar_t**);
 PyStatus CGO_Py_PreInitializeFromBytesArgs(CGO_PyPreConfig*, Py_ssize_clean_t, char**);
-#endif // _PYGMY_TXLLAYER_H
+#endif // _PYG_TXLLAYER_H

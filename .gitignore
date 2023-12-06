@@ -1,8 +1,8 @@
 # Build artifacts
 build/
-*pygmy.*.go.so
+*pyg.*.go.so
 pygout
-pygmy
+pyg
 
 # Environment artifacts
 .idea/

@@ -1,4 +1,4 @@
-package pygmy
+package pyg
 
 // #cgo pkg-config: python3-embed
 // #include "txllayer.h"
@@ -9,31 +9,41 @@ import (
 	wchar "github.com/GeertJohan/cgo.wchar"
 )
 
-type CPySSizeT = C.Py_ssize_t
+type CPyCompilerFlags = C.PyCompilerFlags
 type CPyConfig = C.CGO_PyConfig
 type CPyObject = C.PyObject
 type CPyPreConfig = C.CGO_PyPreConfig
+type CPySSizeT = C.Py_ssize_t
 type CPyStatus = C.PyStatus
-type CPyWideStringList = C.PyWideStringList
 type CPyWideString = *C.wchar_t
-type Cwchar = C.wchar_t
+type CPyWideStringList = C.PyWideStringList
 type Cchar = C.char
+type CFILE = C.FILE
 type Cint = C.int
 type Clong = C.long
 type Cvoid = C.void
+type Cwchar = C.wchar_t
 
 type PyArtifact[T comparable] struct {
 	CInstance T
 }
 
-type PyObject PyArtifact[CPyObject]
 type PyConfig PyArtifact[CPyConfig]
 type PyPreConfig PyArtifact[CPyPreConfig]
 type PyStatus PyArtifact[CPyStatus]
 
-type Pygmy struct {
+type Pyg struct {
 	PreConfig *PyPreConfig
 	Config    *PyConfig
+}
+
+type PyRunArgs struct {
+	CloseIt  int
+	FileName string
+	Flags    *CPyCompilerFlags
+	Globals  *CPyObject
+	Locals   *CPyObject
+	Start    int
 }
 
 // Translate a boolean to a C type integer.

@@ -1,4 +1,4 @@
-package pygmy
+package pyg
 
 // #cgo pkg-config: python3-embed
 // #include "txllayer.h"

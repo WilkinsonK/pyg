@@ -1,2 +1,4 @@
 github.com/GeertJohan/cgo.wchar v0.0.0-20150629085219-a0ecb6cbd4ac h1:bHv39R8IibFbpr/C2FJHgNwYmuzrsCwwQjEr84n3yqA=
 github.com/GeertJohan/cgo.wchar v0.0.0-20150629085219-a0ecb6cbd4ac/go.mod h1:YsGt3IvCKudF08m0ET3oaazf8NqD6QZlXmov7KJTMMc=
+github.com/chai2010/cgo v0.0.0-20200705093649-db0068d1ecac h1:ZdhqPvwjFTfKr2O1gqlAePsDL0QLGYikV51+AFKI/c4=
+github.com/chai2010/cgo v0.0.0-20200705093649-db0068d1ecac/go.mod h1:0Fa/AQywYvKtIKA9KEgL48kzJ8a+OG+eBVE65lxvHPU=

@@ -1,12 +1,12 @@
-BUILD_OUT=pygmy
+BUILD_OUT=pyg
 SHARE_VER=0.0.0
-SHARE_OUT=libpygmy.$(SHARE_VER).go.so
+SHARE_OUT=libpyg.$(SHARE_VER).go.so
 
 .PHONEY: all
 all: clean build shared
 
 clean:
-	rm $(BUILD_DIR) $(SHARE_OUT)
+	rm $(BUILD_OUT) $(SHARE_OUT)
 
 build:
 	go build -o $(BUILD_OUT) .
