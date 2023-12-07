@@ -6,12 +6,70 @@ import "C"
 
 // Initialize a new Go PyConfig object.
 func ConfigNew() *PyConfig {
-	return &PyConfig{CInstance: CPyConfig{}}
+	return &PyConfig{CInstance: CPyConfig{}, CInstanceMapped: false}
 }
 
 // Initialize a new Go PyPreConfig object.
 func PreConfigNew() *PyPreConfig {
 	return &PyPreConfig{CInstance: CPyPreConfig{}}
+}
+
+func (config *PyConfig) initFieldRefs() {
+	if config.CInstanceMapped {
+		return
+	}
+
+	config.Argv = config.CInstance.Argv
+	config.BaseExecPrefix = config.CInstance.BaseExecPrefix
+	config.BaseExecutable = config.CInstance.BaseExecutable
+	config.BufferedStdio = config.CInstance.BufferedStdio
+	config.BytesWarning = config.CInstance.BytesWarning
+	config.CheckHashPYCsMode = config.CInstance.CheckHashPYCsMode
+	config.ConfigureCStdio = config.CInstance.ConfigureCStdio
+	config.DevMode = config.CInstance.DevMode
+	config.DumpRefs = config.CInstance.DumpRefs
+	config.ExecPrefix = config.CInstance.ExecPrefix
+	config.Executable = config.CInstance.Executable
+	config.FaultHandler = config.CInstance.FaultHandler
+	config.FaultHandler = config.CInstance.FaultHandler
+	config.FilesystemEncoding = config.CInstance.FilesystemEncoding
+	config.FilesystemErrors = config.CInstance.FilesystemErrors
+	config.Home = config.CInstance.Home
+	config.ImportTime = config.CInstance.ImportTime
+	config.Inspect = config.CInstance.Inspect
+	config.InstallSignalHandlers = config.CInstance.InstallSignalHandlers
+	config.Interactive = config.CInstance.Interactive
+	config.Isolated = config.CInstance.Isolated
+	config.MallocStats = config.CInstance.MallocStats
+	config.PythonPathEnv = config.CInstance.PythonPathEnv
+	config.ModuleSearchPaths = config.CInstance.ModuleSearchPaths
+	config.ModuleSearchPathsSet = config.CInstance.ModuleSearchPathsSet
+	config.OptimizationLevel = config.CInstance.OptimizationLevel
+	config.ParseArgv = config.CInstance.ParseArgv
+	config.ParserDebug = config.CInstance.ParserDebug
+	config.PathConfigWarnings = config.CInstance.PathConfigWarnings
+	config.Prefix = config.CInstance.Prefix
+	config.ProgramName = config.CInstance.ProgramName
+	config.PyCachePrefix = config.CInstance.PyCachePrefix
+	config.Quiet = config.CInstance.Quiet
+	config.RunCommand = config.CInstance.RunCommand
+	config.RunFileName = config.CInstance.RunFileName
+	config.RunModule = config.CInstance.RunModule
+	config.ShowRefCount = config.CInstance.ShowRefCount
+	config.SiteImport = config.CInstance.SiteImport
+	config.SkipSourceFirstLine = config.CInstance.SkipSourceFirstLine
+	config.StdioEncoding = config.CInstance.StdioEncoding
+	config.StdioErrors = config.CInstance.StdioErrors
+	config.TraceMalloc = config.CInstance.TraceMalloc
+	config.UseEnvironment = config.CInstance.UseEnvironment
+	config.UseHashSeed = config.CInstance.UseHashSeed
+	config.UserSiteDirectory = config.CInstance.UserSiteDirectory
+	config.Verbose = config.CInstance.Verbose
+	config.WarnOptions = config.CInstance.WarnOptions
+	config.WriteByteCode = config.CInstance.WriteByteCode
+	config.XOptions = config.CInstance.XOptions
+
+	config.CInstanceMapped = !config.CInstanceMapped
 }
 
 // Release configuration memory.
@@ -25,6 +83,7 @@ func (config *PyConfig) Clear() {
 // https://docs.python.org/3/c-api/init_config.html#c.PyConfig_InitIsolatedConfig
 func (config *PyConfig) InitIsolatedConfig() {
 	C.CGO_PyConfig_InitIsolatedConfig(&config.CInstance)
+	config.initFieldRefs()
 }
 
 // Initialize configuration with the Python
@@ -32,6 +91,7 @@ func (config *PyConfig) InitIsolatedConfig() {
 // https://docs.python.org/3/c-api/init_config.html#c.PyConfig_InitPythonConfig
 func (config *PyConfig) InitPythonConfig() {
 	C.CGO_PyConfig_InitPythonConfig(&config.CInstance)
+	config.initFieldRefs()
 }
 
 // Read all Python configuration. Fields which are
@@ -94,13 +154,15 @@ func (config *PyConfig) SetBytesString(
 }
 
 // Set property as boolean.
-func (config *PyConfig) SetBoolean(prop *Cint, val bool) {
+func (config *PyConfig) SetBoolean(prop *Cint, val bool) PyStatus {
 	*(prop) = Bool2CInt(val)
+	return StatusOk()
 }
 
 // Set property as integer.
-func (config *PyConfig) SetInteger(prop *Cint, val int) {
+func (config *PyConfig) SetInteger(prop *Cint, val int) PyStatus {
 	*(prop) = Cint(val)
+	return StatusOk()
 }
 
 // Copy wide character string into configStr.

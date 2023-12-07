@@ -7,6 +7,8 @@ import (
 	"fmt"
 )
 
+// PygNew
+//
 // Get a new instance of Python interpreter with
 // preset config and preconfig objects.
 func PygNew(config *PyConfig, preconfig *PyPreConfig) *Pyg {
@@ -21,11 +23,15 @@ func PygNew(config *PyConfig, preconfig *PyPreConfig) *Pyg {
 	return &Pyg{Config: config, PreConfig: preconfig}
 }
 
+// PygNewPython
+//
 // Get a new instance of Python interpreter.
 func PygNewPython() *Pyg {
 	return PygNew(nil, nil)
 }
 
+// PygNewIsolated
+//
 // Get a new isolated instance of Python
 // interpreter.
 func PygNewIsolated() *Pyg {
@@ -42,13 +48,15 @@ func (pygi *Pyg) checkInitialized() error {
 	return nil
 }
 
-func (pygi *Pyg) checkInitializedS(val string, err error) (string, error) {
+func (pygi *Pyg) checkInitializedS(val string) (string, error) {
 	if err := pygi.checkInitialized(); err != nil {
 		return "", err
 	}
-	return val, err
+	return val, nil
 }
 
+// FinalizeEx
+//
 // Undo all initializations made by
 // Py_Initialize() and subsequent use of Python/C
 // API functions, and destroy all sub-interpreters
@@ -62,6 +70,8 @@ func (pygi *Pyg) FinalizeEx() int {
 	return int(C.Py_FinalizeEx())
 }
 
+// InitializeFromConfig
+//
 // Initialize Python from config configuration.
 // https://docs.python.org/3/c-api/init_config.html#c.Py_InitializeFromConfig
 func (pygi *Pyg) InitializeFromConfig() PyStatus {
@@ -69,6 +79,8 @@ func (pygi *Pyg) InitializeFromConfig() PyStatus {
 	return StatusNew(ret)
 }
 
+// IsInitialized
+//
 // Whether the Python interpreter has been
 // initialized or not.
 // https://docs.python.org/3/c-api/init.html#c.Py_IsInitialized
@@ -76,6 +88,8 @@ func (pygi *Pyg) IsInitialized() bool {
 	return CInt2Bool(C.Py_IsInitialized())
 }
 
+// GetBuildInfo
+//
 // Return information about the sequence number
 // and build date and time of the current Python
 // interpreter.
@@ -84,6 +98,8 @@ func (pygi *Pyg) GetBuildInfo() string {
 	return C.GoString(C.Py_GetBuildInfo())
 }
 
+// GetCompiler
+//
 // Return an indication of the compiler used to
 // build the current Python version.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetCompiler
@@ -91,6 +107,8 @@ func (pygi *Pyg) GetCompiler() string {
 	return C.GoString(C.Py_GetCompiler())
 }
 
+// GetCopyright
+//
 // Return the official copyright for the current
 // Python version.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetCopyright
@@ -98,6 +116,8 @@ func (pygi *Pyg) GetCopyright() string {
 	return C.GoString(C.Py_GetCopyright())
 }
 
+// GetExecPrefix
+//
 // Return the exec-prefix for installed
 // platform-dependent files.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetExecPrefix
@@ -105,25 +125,33 @@ func (pygi *Pyg) GetExecPrefix() (string, error) {
 	return pygi.checkInitializedS(WString2String(C.Py_GetExecPrefix()))
 }
 
+// GetPath
+//
 // Return the default module search path.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetPath
 func (pygi *Pyg) GetPath() (string, error) {
 	return pygi.checkInitializedS(WString2String(C.Py_GetPath()))
 }
 
+// GetPlatform
+//
 // Return the platform identifier for the current
 // platform.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetPlatform
-func (inter *Pyg) GetPlatform() string {
+func (pygi *Pyg) GetPlatform() string {
 	return C.GoString(C.Py_GetPlatform())
 }
 
+// GetPrefix
+//
 // Return the prefix for installed platform-independent files.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetPrefix
 func (pygi *Pyg) GetPrefix() (string, error) {
 	return pygi.checkInitializedS(WString2String(C.Py_GetPrefix()))
 }
 
+// GetProgramFullPath
+//
 // Return the full program name of the Python
 // executable.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetProgramFullPath
@@ -131,6 +159,8 @@ func (pygi *Pyg) GetProgramFullPath() (string, error) {
 	return pygi.checkInitializedS(WString2String(C.Py_GetProgramFullPath()))
 }
 
+// GetProgramName
+//
 // Return the program name set by Python
 // configuration.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetProgramName
@@ -138,6 +168,8 @@ func (pygi *Pyg) GetProgramName() (string, error) {
 	return pygi.checkInitializedS(WString2String(C.Py_GetProgramName()))
 }
 
+// GetPythonHome
+//
 // Return the default "home", that is, the value
 // set by configuration.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetPythonHome
@@ -145,12 +177,16 @@ func (pygi *Pyg) GetPythonHome() (string, error) {
 	return pygi.checkInitializedS(WString2String(C.Py_GetPythonHome()))
 }
 
+// GetVersion
+//
 // Return the version of this Python interpreter.
 // https://docs.python.org/3/c-api/init.html#c.Py_GetVersion
 func (pygi *Pyg) GetVersion() string {
 	return C.GoString(C.Py_GetVersion())
 }
 
+// PreInitialize
+//
 // Preinitialize Python from preconfig
 // preconfiguration.
 // https://docs.python.org/3/c-api/init_config.html#c.Py_PreInitialize
@@ -159,6 +195,8 @@ func (pygi *Pyg) PreInitialize() PyStatus {
 	return StatusNew(ret)
 }
 
+// PreInitializeFromArgs
+//
 // Preinitialize Python from preconfig
 // preconfiguration. Parse argv command line
 // arguments (wide strings) if parse_argv of
@@ -172,6 +210,8 @@ func (pygi *Pyg) PreInitializeFromArgs(argv []CPyWideString) PyStatus {
 	return StatusNew(ret)
 }
 
+// PreInitializeFromBytesArgs
+//
 // Preinitialize Python from preconfig
 // preconfiguration. Parse argv command line
 // arguments (bytes strings) if parse_argv of
@@ -192,6 +232,8 @@ func (pygi *Pyg) PreInitializeFromBytesArgs(argv []string) PyStatus {
 	return StatusNew(ret)
 }
 
+// RunFile
+//
 // This is a simplified interface to
 // PyRun_SimpleFileExFlags() below, leaving
 // closeit set to 0 and flags set to NULL.
@@ -205,12 +247,18 @@ func (pygi *Pyg) RunFile(fileName string) (int, error) {
 	defer CFree(cFileName)
 	defer CFree(cMode)
 
-	fd := C.fopen(cFileName, cMode)
+	fd, err := C.fopen(cFileName, cMode)
+	if err != nil {
+		return -1, err
+	}
 	defer C.fclose(fd)
 
-	return int(C.PyRun_SimpleFile(fd, cFileName)), nil
+	i, err := C.PyRun_SimpleFile(fd, cFileName)
+	return int(i), err
 }
 
+// RunMain
+//
 // Execute the command (PyConfig.run_command), the
 // script (PyConfig.run_filename) or the module
 // (PyConfig.run_module) specified on the command
@@ -220,9 +268,13 @@ func (pygi *Pyg) RunMain() (int, error) {
 	if err := pygi.checkInitialized(); err != nil {
 		return -1, err
 	}
-	return int(C.Py_RunMain()), nil
+
+	i, err := C.Py_RunMain()
+	return int(i), err
 }
 
+// RunString
+//
 // This is a simplified interface to
 // PyRun_SimpleStringFlags() below, leaving the
 // PyCompilerFlags* argument set to NULL.
@@ -234,9 +286,22 @@ func (pygi *Pyg) RunString(str string) (int, error) {
 	cStr := C.CString(str)
 	defer CFree(cStr)
 
-	return int(C.PyRun_SimpleString(cStr)), nil
+	i, err := C.PyRun_SimpleString(cStr)
+	return int(i), err
 }
 
 func (pygi *Pyg) SetArgv(argv []string) PyStatus {
 	return pygi.Config.SetBytesArgv(argv)
+}
+
+func (pygi *Pyg) SetConfigBoolean(prop *Cint, value bool) PyStatus {
+	return pygi.Config.SetBoolean(prop, value)
+}
+
+func (pygi *Pyg) SetConfigInteger(prop *Cint, value int) PyStatus {
+	return pygi.Config.SetInteger(prop, value)
+}
+
+func (pygi *Pyg) SetConfigString(prop *CPyWideString, value string) PyStatus {
+	return pygi.Config.SetString(prop, String2WideString(value))
 }

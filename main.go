@@ -16,13 +16,15 @@ func EvalStatus(status pyg.PyStatus) {
 }
 
 func main() {
-	inter := pyg.PygNewPython()
-	defer inter.FinalizeEx()
+	pygi := pyg.PygNewPython()
+	defer pygi.FinalizeEx()
 
-	EvalStatus(inter.PreInitializeFromBytesArgs(os.Args))
-	EvalStatus(inter.SetArgv(os.Args))
-	EvalStatus(inter.InitializeFromConfig())
+	EvalStatus(pygi.PreInitializeFromBytesArgs(os.Args))
+	EvalStatus(pygi.SetArgv(os.Args))
+	EvalStatus(pygi.SetConfigInteger(pygi.Config.Verbose, 2))
+	EvalStatus(pygi.SetConfigString(pygi.Config.ProgramName, "PyGi"))
+	EvalStatus(pygi.InitializeFromConfig())
 
-	inter.RunString("print('Hello World')")
-	inter.FinalizeEx()
+	pygi.RunString("print('Hello World')")
+	pygi.FinalizeEx()
 }
