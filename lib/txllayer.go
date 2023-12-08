@@ -55,15 +55,6 @@ type Pyg struct {
 	Config    *PyConfig
 }
 
-type PyRunArgs struct {
-	CloseIt  int
-	FileName string
-	Flags    *CPyCompilerFlags
-	Globals  *CPyObject
-	Locals   *CPyObject
-	Start    int
-}
-
 // Translate a boolean to a C type integer.
 func Bool2CInt(obj bool) Cint {
 	if obj {

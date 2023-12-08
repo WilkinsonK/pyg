@@ -161,7 +161,7 @@ void CGO_PyPreConfig_InitFieldRefs(CGO_PyPreConfig* config) {
     // completed.
     if (config->cInstanceMapped != 0) return;
 
-    config->cInstance = (PyPreConfig*)malloc(sizeof(PyPreConfig));
+    config->cInstance       = (PyPreConfig*)malloc(sizeof(PyPreConfig));
     config->Allocator       = &config->cInstance->allocator;
     config->ConfigureLocale = &config->cInstance->configure_locale;
     config->CoerceCLocale   = &config->cInstance->coerce_c_locale;
