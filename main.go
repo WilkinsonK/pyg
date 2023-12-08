@@ -23,7 +23,7 @@ func main() {
 	EvalStatus(pygi.SetPreConfigInteger(pygi.PreConfig.DevMode, 1))
 	EvalStatus(pygi.PreInitialize())
 
-	EvalStatus(pygi.SetArgv(os.Args))
+	EvalStatus(pygi.SetConfigArgv(os.Args))
 	EvalStatus(pygi.SetConfigInteger(pygi.Config.Verbose, 2))
 	EvalStatus(pygi.SetConfigString(pygi.Config.ProgramName, "PyGi"))
 	EvalStatus(pygi.InitializeFromConfig())

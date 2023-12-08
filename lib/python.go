@@ -290,25 +290,44 @@ func (pygi *Pyg) RunString(str string) (int, error) {
 	return int(i), err
 }
 
-func (pygi *Pyg) SetArgv(argv []string) PyStatus {
+// SetConfigArgv
+//
+// Set arguments list of this internal config.
+func (pygi *Pyg) SetConfigArgv(argv []string) PyStatus {
 	return pygi.Config.SetBytesArgv(argv)
 }
 
+// SetConfigBoolean
+//
+// Set an integer config property as a boolean.
 func (pygi *Pyg) SetConfigBoolean(prop *Cint, value bool) PyStatus {
 	return pygi.Config.SetBoolean(prop, value)
 }
 
+// SetConfigInteger
+//
+// Set an integer config property.
 func (pygi *Pyg) SetConfigInteger(prop *Cint, value int) PyStatus {
 	return pygi.Config.SetInteger(prop, value)
 }
 
+// SetConfigString
+//
+// Set a string config property.
 func (pygi *Pyg) SetConfigString(prop *CPyWideString, value string) PyStatus {
 	return pygi.Config.SetString(prop, String2WideString(value))
 }
 
+// SetPreConfigBoolean
+//
+// Set an integer preconfig property as a boolean.
 func (pygi *Pyg) SetPreConfigBoolean(prop *Cint, value bool) PyStatus {
 	return pygi.PreConfig.SetBoolean(prop, value)
 }
+
+// SetPreConfigInteger
+//
+// Set an integer preconfig property.
 func (pygi *Pyg) SetPreConfigInteger(prop *Cint, value int) PyStatus {
 	return pygi.PreConfig.SetInteger(prop, value)
 }
