@@ -31,3 +31,32 @@ $ sudo dnf install python3-devel
 # For Debian based systems
 $ sudo apt-get install python3-dev
 ```
+
+To install this package, call the following:
+```bash
+$ go get github.com/WilkinsonK/pyg/lib
+```
+
+Where afterwards you should be able to import `Pyg` in your project.
+```golang
+import pyg "github.com/WilkinsonK/pyg/lib"
+
+func main() {
+    pygi := pyg.PygNewIsolated()
+    defer pygi.FinalizeEx()
+
+    status := pygi.InitializeFromConfig()
+    if status.IsException() {
+		if status.IsExit() {
+			os.Exit(status.ExitCode())
+		}
+		status.ExitStatusException()
+	}
+
+    if code, err := pygi.RunString("print('Hello World')"); err != nil {
+        panic(err)
+    } else {
+        return code
+    }
+}
+```

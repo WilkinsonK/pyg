@@ -29,5 +29,4 @@ func main() {
 	EvalStatus(pygi.InitializeFromConfig())
 
 	pygi.RunString("print('Hello World')")
-	pygi.FinalizeEx()
 }
