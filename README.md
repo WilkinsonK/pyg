@@ -39,6 +39,7 @@ $ go get github.com/WilkinsonK/pyg/lib
 
 Where afterwards you should be able to import `Pyg` in your project.
 ```golang
+import os
 import pyg "github.com/WilkinsonK/pyg/lib"
 
 func main() {
