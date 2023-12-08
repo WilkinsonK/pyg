@@ -36,8 +36,13 @@ type PyArtifact[T comparable] struct {
 	cInstanceMapped bool
 }
 
-type PyPreConfig PyArtifact[CPyPreConfig]
 type PyStatus PyArtifact[CPyStatus]
+type PyPreConfig struct {
+	PyArtifact[CPyPreConfig]
+	CInstance       CPyPreConfig
+	CInstanceMapped bool
+	CPyPreConfig
+}
 type PyConfig struct {
 	PyArtifact[CPyConfig]
 	CInstance       CPyConfig

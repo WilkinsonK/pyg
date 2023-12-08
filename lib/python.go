@@ -305,3 +305,10 @@ func (pygi *Pyg) SetConfigInteger(prop *Cint, value int) PyStatus {
 func (pygi *Pyg) SetConfigString(prop *CPyWideString, value string) PyStatus {
 	return pygi.Config.SetString(prop, String2WideString(value))
 }
+
+func (pygi *Pyg) SetPreConfigBoolean(prop *Cint, value bool) PyStatus {
+	return pygi.PreConfig.SetBoolean(prop, value)
+}
+func (pygi *Pyg) SetPreConfigInteger(prop *Cint, value int) PyStatus {
+	return pygi.PreConfig.SetInteger(prop, value)
+}

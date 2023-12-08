@@ -19,7 +19,10 @@ func main() {
 	pygi := pyg.PygNewPython()
 	defer pygi.FinalizeEx()
 
-	EvalStatus(pygi.PreInitializeFromBytesArgs(os.Args))
+	EvalStatus(pygi.SetPreConfigInteger(pygi.PreConfig.ParseArgv, 1))
+	EvalStatus(pygi.SetPreConfigInteger(pygi.PreConfig.DevMode, 1))
+	EvalStatus(pygi.PreInitialize())
+
 	EvalStatus(pygi.SetArgv(os.Args))
 	EvalStatus(pygi.SetConfigInteger(pygi.Config.Verbose, 2))
 	EvalStatus(pygi.SetConfigString(pygi.Config.ProgramName, "PyGi"))

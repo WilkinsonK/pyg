@@ -102,7 +102,6 @@ typedef struct CGO_PyPreConfig {
     int          cInstanceMapped;
 } CGO_PyPreConfig;
 
-void CGO_PyConfig_InitFieldRefs(CGO_PyConfig*);
 void CGO_PyConfig_Clear(CGO_PyConfig*);
 void CGO_PyConfig_InitPythonConfig(CGO_PyConfig*);
 void CGO_PyConfig_InitIsolatedConfig(CGO_PyConfig*);
@@ -113,7 +112,6 @@ PyStatus CGO_PyConfig_SetBytesString(CGO_PyConfig*, wchar_t**, const char*);
 PyStatus CGO_PyConfig_SetString(CGO_PyConfig*, wchar_t**, const wchar_t*);
 PyStatus CGO_PyConfig_SetWideStringList(CGO_PyConfig*, PyWideStringList*, Py_ssize_clean_t, wchar_t**);
 void CGO_PyPreConfig_Clear(CGO_PyPreConfig*);
-void CGO_PyPreConfig_InitFieldRefs(CGO_PyPreConfig*);
 void CGO_PyPreConfig_InitPythonConfig(CGO_PyPreConfig*);
 void CGO_PyPreConfig_InitIsolatedConfig(CGO_PyPreConfig*);
 PyStatus CGO_PreInitialize(const CGO_PyPreConfig*);

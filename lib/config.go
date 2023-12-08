@@ -190,6 +190,23 @@ func (config *PyConfig) SetWideStringList(
 	return StatusNew(ret)
 }
 
+func (config *PyPreConfig) initFieldRefs() {
+	if config.CInstanceMapped {
+		return
+	}
+
+	config.Allocator = config.CInstance.Allocator
+	config.ConfigureLocale = config.CInstance.ConfigureLocale
+	config.CoerceCLocale = config.CInstance.CoerceCLocale
+	config.DevMode = config.CInstance.DevMode
+	config.Isolated = config.CInstance.Isolated
+	config.ParseArgv = config.CInstance.ParseArgv
+	config.UseEnvironment = config.CInstance.UseEnvironment
+	config.UTF8Mode = config.CInstance.UTF8Mode
+
+	config.CInstanceMapped = !config.CInstanceMapped
+}
+
 // Free any memory associated with preconfig.
 func (config *PyPreConfig) Clear() {
 	C.CGO_PyPreConfig_Clear(&config.CInstance)
@@ -200,6 +217,7 @@ func (config *PyPreConfig) Clear() {
 // https://docs.python.org/3/c-api/init_config.html#c.PyPreConfig_InitPythonConfig
 func (config *PyPreConfig) InitPythonConfig() {
 	C.CGO_PyPreConfig_InitPythonConfig(&config.CInstance)
+	config.initFieldRefs()
 }
 
 // Initialize the preconfiguration with Isolated
@@ -207,9 +225,17 @@ func (config *PyPreConfig) InitPythonConfig() {
 // https://docs.python.org/3/c-api/init_config.html#c.PyPreConfig_InitIsolatedConfig
 func (config *PyPreConfig) InitIsolatedConfig() {
 	C.CGO_PyPreConfig_InitIsolatedConfig(&config.CInstance)
+	config.initFieldRefs()
+}
+
+// Set property as boolean.
+func (config *PyPreConfig) SetBoolean(prop *Cint, val bool) PyStatus {
+	*(prop) = Bool2CInt(val)
+	return StatusOk()
 }
 
 // Set property as integer.
-func (config *PyPreConfig) SetInteger(prop *Cint, val int) {
+func (config *PyPreConfig) SetInteger(prop *Cint, val int) PyStatus {
 	*(prop) = Cint(val)
+	return StatusOk()
 }
