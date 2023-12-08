@@ -24,6 +24,15 @@ func testEqualS[P string](t *testing.T, a, b, message string) {
 	}
 }
 
+func BenchmarkRunString(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		pygi := pyg.PygNewIsolated()
+		pygi.InitializeFromConfig()
+		pygi.RunString("print('Hello, World')")
+		pygi.FinalizeEx()
+	}
+}
+
 func TestConfigSetup(t *testing.T) {
 	config := pyg.ConfigNew()
 	defer config.Clear()
@@ -121,6 +130,41 @@ func TestConfigSetString(t *testing.T) {
 	config.SetString(config.ProgramName, pyg.String2WideString(expected))
 	got = pyg.WString2String(*config.ProgramName)
 	testEqualS(t, expected, got, "Changes from top level should reflect in lower")
+}
+
+func TestPreConfigSetup(t *testing.T) {
+	config := pyg.PreConfigNew()
+	defer config.Clear()
+
+	config.InitIsolatedConfig()
+	if !config.CInstanceMapped {
+		t.Error("C instance attributes were not mapped to top-level object")
+	}
+
+	testAttrP(t, "Allocator", config.Allocator, config.CInstance.Allocator)
+	testAttrP(t, "ConfigureLocale", config.ConfigureLocale, config.CInstance.ConfigureLocale)
+	testAttrP(t, "CoerceCLocale", config.CoerceCLocale, config.CInstance.CoerceCLocale)
+	testAttrP(t, "DevMode", config.DevMode, config.CInstance.DevMode)
+	testAttrP(t, "Isolated", config.Isolated, config.CInstance.Isolated)
+	testAttrP(t, "ParseArgv", config.ParseArgv, config.CInstance.ParseArgv)
+	testAttrP(t, "UseEnvironment", config.UseEnvironment, config.CInstance.UseEnvironment)
+	testAttrP(t, "UTF8Mode", config.UTF8Mode, config.CInstance.UTF8Mode)
+}
+
+func TestPreConfigSetInteger(t *testing.T) {
+	config := pyg.PreConfigNew()
+	defer config.Clear()
+	config.InitIsolatedConfig()
+
+	expected, got := 3, 0
+	config.SetInteger(config.Allocator, expected)
+	got = int(*config.CInstance.Allocator)
+	if !(expected == got) {
+		t.Errorf(
+			"expected %d got %d. Changes from top level should reflect in lower",
+			expected,
+			got)
+	}
 }
 
 func TestStringTxl2WideString(t *testing.T) {
