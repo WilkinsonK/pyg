@@ -22,8 +22,8 @@ $ sudo find / -type d -iname *pkgconfig*
 /path/to/pkgconfig/files
 ```
 
-If you don't find any configurations pointing to a Python C API, it is most
-likely the needed development packages are not installed.
+If you don't find any configurations pointing to a Python API implementation, it
+is most likely that the needed development packages are not installed.
 ```base
 # For RHEL/Fedora/CentOS systems
 $ sudo dnf install python3-devel
