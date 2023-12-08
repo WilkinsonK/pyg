@@ -22,6 +22,7 @@ func (config *PyConfig) initFieldRefs() {
 	config.Argv = config.CInstance.Argv
 	config.BaseExecPrefix = config.CInstance.BaseExecPrefix
 	config.BaseExecutable = config.CInstance.BaseExecutable
+	config.BasePrefix = config.CInstance.BasePrefix
 	config.BufferedStdio = config.CInstance.BufferedStdio
 	config.BytesWarning = config.CInstance.BytesWarning
 	config.CheckHashPYCsMode = config.CInstance.CheckHashPYCsMode
