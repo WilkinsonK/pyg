@@ -4,6 +4,7 @@ package pyg
 // #include "txllayer.h"
 import "C"
 import (
+	"strings"
 	"unicode/utf16"
 	"unsafe"
 )
@@ -79,16 +80,24 @@ func CInt2Bool(obj Cint) bool {
 //
 // Translate a wide char string into a Go string.
 func WString2String(value CPyWideString) string {
-	valueLen := C.wcslen(value)
-	ret := (*[maxRunes]uint16)(unsafe.Pointer(value))[:valueLen:valueLen]
-	return string(utf16.Decode(ret))
+	wptr := unsafe.Pointer(value)
+	size := C.wcslen((CPyWideString)(wptr)) * 2
+	ret := string(utf16.Decode((*[maxRunes]uint16)(wptr)[:size:size]))
+
+	// Have to clean the decoded string to remove
+	// 0 byte values embedded in it.
+	badChar := string(byte(0))
+	for strings.Contains(ret, badChar) {
+		idx := strings.Index(ret, badChar)
+		ret = ret[:idx] + ret[idx+1:]
+	}
+
+	return ret
 }
 
 // String2WideString
 //
 // Translate a Go string into a wide char string.
 func String2WideString(value string) CPyWideString {
-	w := utf16.Encode([]rune(value))
-	w = append(w, 0x00)
-	return (CPyWideString)(unsafe.Pointer(&w))
+	return (CPyWideString)(unsafe.Pointer(&utf16.Encode([]rune(value))[0]))
 }
